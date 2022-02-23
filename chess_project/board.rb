@@ -82,6 +82,53 @@ class Board
   def add_piece(piece, pos)
     self[pos] = piece
   end
+
+  def in_check?(color)
+    king_pos = find_king(color)
+    color == :white ? opposing_color = :black : opposing_color = :white 
+    opponent_moves = get_all_moves(opposing_color)
+    opponent_moves.include?(king_pos)
+  end
+
+  def checkmate?(color)
+    if in_check?(color)
+      (0...self.length).each do |row_idx|
+        (0...self.length).each do |col_idx|
+          pos = [row_idx, col_idx]
+          if self[pos].color == color && self[pos].valid_moves.length > 0
+            return false 
+          end
+        end
+      end
+      return true
+    end
+  end
+
+  #Finds the position of the king that is the color of what is passed in
+  def find_king(color)
+    (0...self.length).each do |row_idx|
+      (0...self.length).each do |col_idx|
+        current_pos = [row_idx, col_idx]
+        if self[current_pos].is_a?(King) && self[current_pos].color == color
+          return current_pos
+        end
+      end
+    end
+  end
+
+  #Get all possible moves for a certain player (color)
+  def get_all_moves(color)
+    all_moves = []
+    (0...self.length).each do |row_idx|
+      (0...self.length).each do |col_idx|
+        current_pos = [row_idx, col_idx]
+        if self[current_pos].color == color
+          all_moves += self[current_pos].moves
+        end
+      end
+    end
+    all_moves
+  end
     
  end
 
