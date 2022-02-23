@@ -76,19 +76,23 @@ class Board
     BOARD_SIZE
   end
 
+  require "byebug"
   #Takes in a start pos and end pos and moves piece if valid
   def move_piece(start_pos, end_pos)
-    #raise error if start is null because we can't move from an empty spot
-    raise "Invalid Start Position" if self[start_pos].is_a?(NullPiece)
-
-    #raise error if end pos is not empty and its filled by the same color piece
-    #it is a valid attack if it is filled by an opposite color piece
-    if !self[end_pos].is_a?(NullPiece) && self[end_pos].color == self[start_pos].color
-      raise "Invalid End Position" 
+    if self[start_pos].is_a?(NullPiece)
+       #raise error if start is null because we can't move from an empty spot
+       puts "Invalid Start Position"
+       raise StandardError
+    elsif !self[end_pos].is_a?(NullPiece) && self[end_pos].color == self[start_pos].color
+      #raise error if end pos is not empty and its filled by the same color piece
+      #it is a valid attack if it is filled by an opposite color piece
+      puts "Invalid End Position" 
+      raise StandardError
     elsif !self[start_pos].valid_moves.include?(end_pos)
-      raise "Invalid Move, that puts us into check"
+      puts "Invalid Move"
+      raise StandardError
     else
-     move_piece!(start_pos, end_pos)
+      move_piece!(start_pos, end_pos)
     end
   end
 
