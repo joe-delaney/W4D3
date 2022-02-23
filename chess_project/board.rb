@@ -7,9 +7,29 @@ class Board
 
   #initialize an 8x8 board and set each space to a null piece
   #call helper method fill board to place pieces
-  def initialize
+  def initialize(fill = true)
     @rows = Array.new(BOARD_SIZE){Array.new(BOARD_SIZE, NullPiece.instance)}
-    fill_board
+    fill_board if fill
+  end
+
+  def deep_dup
+    #Create a new, empty board
+    new_board = Board.new(false)
+
+    #Get array of all pieces on the board
+    pieces = get_pieces
+
+    #Add new pieces (copies of old pieces) to our new board
+    pieces.each do |piece|
+      color = piece.color
+      row = piece.pos[0]
+      col = piece.pos[1]
+      pos = [row,col]
+      piece.class.new(color, new_board, pos)
+    end
+
+    #return new board
+    new_board
   end
 
   #called when board is initialized to place pieces
@@ -33,7 +53,7 @@ class Board
   #helper method to fill the back rows for both colors
   def fill_back_rows(color)
     #We can use this to place pieces in this order in the back row
-    pieces = [Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook]
+    pieces = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
 
     #if color is white, we should fill back row 7 otherwise back row 0
     color == :white ? i = 7 : i = 0
@@ -83,6 +103,7 @@ class Board
     self[pos] = piece
   end
 
+  #Determines whether a color is in check or not
   def in_check?(color)
     king_pos = find_king(color)
     color == :white ? opposing_color = :black : opposing_color = :white 
@@ -90,6 +111,8 @@ class Board
     opponent_moves.include?(king_pos)
   end
 
+  #Determines if a color is in checkmate by going through each of the 
+  #color's pieces and seeing if any have a valid move
   def checkmate?(color)
     if in_check?(color)
       (0...self.length).each do |row_idx|
@@ -128,6 +151,18 @@ class Board
       end
     end
     all_moves
+  end
+
+  #This returns an array of all of the pieces on the board
+  def get_pieces
+    pieces = []
+    (0...self.length).each do |row_idx|
+      (0...self.length).each do |col_idx|
+        current_pos = [row_idx, col_idx]
+        pieces << self[current_pos] if !self[current_pos].is_a?(NullPiece)
+      end
+    end
+    pieces
   end
     
  end
