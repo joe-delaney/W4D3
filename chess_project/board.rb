@@ -1,4 +1,5 @@
 require_relative 'pieces.rb'
+
 class Board 
   BOARD_SIZE = 8
   
@@ -81,28 +82,14 @@ class Board
   def add_piece(piece, pos)
     self[pos] = piece
   end
-
-  #prints the board in a readable fashion
-  def print_board 
-    rows_to_s = []
-    @rows.each do |row|
-        new_row = []
-      row.each do |i|
-        new_row << i.to_s
-      end
-      rows_to_s << new_row 
-    end
-    rows_to_s.each do |ele|
-      p ele.join(' ')
-     end
-  end
+    
  end
 
-b = Board.new
-p '-----'
-b.print_board
+# b = Board.new
+# p '-----'
+# b.print_board
 
-p b[[6,1]].moves
+# p b[[6,1]].moves
 # b.move_piece([1,4])
 
 

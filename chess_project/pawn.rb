@@ -2,7 +2,7 @@ class Pawn < Piece
 
   def initialize(color, board, pos)
     super
-    @symbol = :P
+    @symbol = "♙"
   end 
 
   def to_s 

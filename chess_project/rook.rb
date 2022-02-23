@@ -5,7 +5,7 @@ class Rook < Piece
 
   def initialize(color, board, pos)
     super
-    @symbol = :R
+    @symbol = "♖"
   end 
 
   def to_s 

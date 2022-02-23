@@ -5,7 +5,7 @@ class Knight < Piece
 
   def initialize(color, board, pos)
     super
-    @symbol = :H
+    @symbol = "♘"
   end 
 
   def to_s 
