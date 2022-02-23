@@ -39,10 +39,32 @@ def feed_me_a_fruit
   end
 end  
 
+class YearsError < StandardError
+end
+
+class NameLengthError < StandardError
+end
+
+class PastimeLengthError < StandardError
+end
+
 # PHASE 4
 class BestFriend
   def initialize(name, yrs_known, fav_pastime)
     @name = name
+    begin
+      raise YearsError if yrs_known < 5
+      raise NameLengthError if name.length < 1
+      raise PastimeLengthError if fav_pastime.length < 1
+    rescue YearsError
+      raise "Besties know each other for more than 5 years"
+    rescue NameLengthError
+      raise "Names must be at least one character"
+    rescue PastimeLengthError
+      raise "Pastimes must be at least one character"
+    ensure
+      yrs_known = 5
+    end
     @yrs_known = yrs_known
     @fav_pastime = fav_pastime
   end
