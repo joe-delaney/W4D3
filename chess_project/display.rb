@@ -50,8 +50,6 @@ class Display
       system("clear")
       render
       temp = cursor.get_input
-
-
       if !temp.nil? && start_pos.nil?
         start_pos = temp
         if !board[start_pos].is_a?(NullPiece)

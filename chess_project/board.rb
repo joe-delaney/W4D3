@@ -85,8 +85,15 @@ class Board
     #it is a valid attack if it is filled by an opposite color piece
     if !self[end_pos].is_a?(NullPiece) && self[end_pos].color == self[start_pos].color
       raise "Invalid End Position" 
+    elsif !self[start_pos].valid_moves.include?(end_pos)
+      raise "Invalid Move, that puts us into check"
     else
-      #Save the current piece at the start pos
+     move_piece!(start_pos, end_pos)
+    end
+  end
+
+  def move_piece!(start_pos, end_pos)
+     #Save the current piece at the start pos
       moved = self[start_pos]
 
       #move the current piece to end pos and update the piece's position variable
@@ -95,7 +102,6 @@ class Board
 
       #Empty the start pos
       self[start_pos] = NullPiece.instance
-    end
   end
 
   #This is called when a new piece is made to place itself on the board

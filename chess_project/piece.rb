@@ -39,7 +39,7 @@ class Piece
     #Duplicate the current board
     new_board = board.deep_dup 
     #Make the move on the duplicate board
-    new_board.move_piece(pos, end_pos)
+    new_board.move_piece!(pos, end_pos)
     #Return whether or not the new_board is in check
     new_board.in_check?(color)
   end
